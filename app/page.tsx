@@ -7,8 +7,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Target, TrendingUp, Users, CheckCircle2, Award } from "lucide-react"
 import Link from "next/link"
-import { FlashcardsSection } from "@/components/flashcards-section"
 import { JourneySection } from "@/components/journey-section"
+import { FlashcardsSection } from "@/components/flashcards-section"
+import { Path } from "@/components/journey-path"
 
 interface UserProfile {
   name: string
@@ -29,8 +30,19 @@ export default function FinFitLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [selectedPath, setSelectedPath] = useState<SelectedPath | null>(null)
 
-  const handlePathSelected = (pathId: string, pathName: string, levels: any[]) => {
-    setSelectedPath({ id: pathId, name: pathName, levels })
+  const handlePathSelected = (path: Path) => {
+    const levelsForFlashcards = path.niveis.map((nivel) => ({
+      id: nivel.id,
+      label: nivel.label,
+      questions: nivel.perguntas.map((p) => ({
+        question: p.enunciado,
+        options: p.alternativas,
+        correctIndex: p.correta,
+        explanation: p.explicacao,
+      })),
+    }))
+
+    setSelectedPath({ id: path.id, name: path.name, levels: levelsForFlashcards })
   }
 
   if (showDiagnostic) {

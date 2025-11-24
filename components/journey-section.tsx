@@ -1262,31 +1262,21 @@ const initialPaths: Path[] = [
   },
 ]
 
+import { JourneyPath, Path } from "./journey-path"
+
 interface JourneySectionProps {
-  onPathSelected: (pathId: string, pathName: string, levels: any[]) => void
+  onPathSelected: (path: Path) => void
 }
 
 export function JourneySection({ onPathSelected }: JourneySectionProps) {
-  const [paths, setPaths] = useState<Path[]>(initialPaths)
-  const [activePath, setActivePath] = useState<string | null>(null)
+  // A lógica de estado e o handler permanecem, mas agora serão passados para JourneyPath
+  // O estado 'paths' e 'activePath' pode ser simplificado se não for mais usado aqui diretamente.
 
   const handlePathClick = (path: Path) => {
     if (path.status === "locked") return
 
-    setActivePath(path.id)
-
-    const levelsForFlashcards = path.niveis.map((nivel) => ({
-      id: nivel.id,
-      label: nivel.label,
-      questions: nivel.perguntas.map((p) => ({
-        question: p.enunciado,
-        options: p.alternativas,
-        correctIndex: p.correta,
-        explanation: p.explicacao,
-      })),
-    }))
-
-    onPathSelected(path.id, path.name, levelsForFlashcards)
+    // O restante da lógica para selecionar o caminho e rolar a página permanece o mesmo
+    onPathSelected(path)
 
     setTimeout(() => {
       const flashcardsSection = document.getElementById("flashcards")
@@ -1297,64 +1287,17 @@ export function JourneySection({ onPathSelected }: JourneySectionProps) {
   }
 
   return (
-    <section id="journey" className="journey world-section">
-      <div className="container mx-auto px-6">
-        <h2 className="mb-2 text-center text-3xl font-bold md:text-4xl">Mundo FinFit</h2>
-        <p className="section-lead mb-8 text-center text-lg text-muted-foreground">
-          Cada ilha é uma fase do seu jogo financeiro. Complete uma ilha para desbloquear a próxima.
-        </p>
-
-        <div className="world-grid">
-          {paths.map((path) => (
-            <article
-              key={path.id}
-              className={`world-card ${path.status === "unlocked" ? "world-card--unlocked" : ""} ${
-                path.status === "locked" ? "world-card--locked" : ""
-              }`}
-              data-phase-id={path.id}
-            >
-              <div className="world-card-icon">{path.icon}</div>
-              <div className="world-card-body">
-                <h3 className="world-card-title">{path.name}</h3>
-                <p className="world-card-text">{path.description}</p>
-                <div className="world-card-footer">
-                  {path.status === "unlocked" && (
-                    <>
-                      <span className="world-pill world-pill--active">Desbloqueada · Nível 1–{path.niveis.length}</span>
-                      <button
-                        type="button"
-                        className="world-cta world-cta--primary"
-                        onClick={() => handlePathClick(path)}
-                      >
-                        Clique aqui para começar
-                      </button>
-                    </>
-                  )}
-                  {path.status === "locked" && (
-                    <>
-                      <span className="world-pill world-pill--locked">Bloqueada · Nível 1–{path.niveis.length}</span>
-                      <button type="button" className="world-cta world-cta--locked" disabled>
-                        Bloqueada
-                      </button>
-                    </>
-                  )}
-                  {path.status === "completed" && (
-                    <>
-                      <span className="world-pill world-pill--active">Concluída · Nível 1–{path.niveis.length}</span>
-                      <button
-                        type="button"
-                        className="world-cta world-cta--primary"
-                        onClick={() => handlePathClick(path)}
-                      >
-                        Revisar
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))}
+    <section id="journey" className="py-12 md:py-20">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Explore o Mundo FinFit</h2>
+            <p className="mt-3 max-w-2xl mx-auto text-lg text-muted-foreground">
+            Sua jornada financeira começa aqui. Complete uma etapa para desbloquear a próxima e conquistar novos conhecimentos.
+            </p>
         </div>
+
+        <JourneyPath paths={initialPaths} onSelectPath={handlePathClick} />
+
       </div>
     </section>
   )
