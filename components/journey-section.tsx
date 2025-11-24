@@ -259,7 +259,7 @@ const initialPaths: Path[] = [
       },
       {
         id: "hard",
-        label: "Hard",
+        label: "Difícil",
         perguntas: [
           {
             enunciado: "O que é alavancagem financeira?",
@@ -568,7 +568,7 @@ const initialPaths: Path[] = [
       },
       {
         id: "hard",
-        label: "Hard",
+        label: "Difícil",
         perguntas: [
           {
             enunciado: "O que é a portabilidade de dívida?",
@@ -873,7 +873,7 @@ const initialPaths: Path[] = [
       },
       {
         id: "hard",
-        label: "Hard",
+        label: "Difícil",
         perguntas: [
           {
             enunciado: "O que é a curva de juros?",
@@ -1183,7 +1183,7 @@ const initialPaths: Path[] = [
       },
       {
         id: "hard",
-        label: "Hard",
+        label: "Difícil",
         perguntas: [
           {
             enunciado: "O que é índice Sharpe?",
@@ -1261,7 +1261,6 @@ const initialPaths: Path[] = [
     ],
   },
 ]
-
 import { JourneyPath, Path } from "./journey-path"
 
 interface JourneySectionProps {
