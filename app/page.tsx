@@ -266,7 +266,7 @@ export default function FinFitLanding() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [selectedPath, setSelectedPath] = useState<SelectedPath | null>(null);
     const [currentLevel, setCurrentLevel] = useState(1);
-    const [totalXP, setTotalXP] = useState(10800);
+    const [totalXP, setTotalXP] = useState(25);
     const [completedActivities, setCompletedActivities] = useState<string[]>([]);
 
     // Load stored total XP on mount and listen for XP changes from other components
