@@ -405,17 +405,33 @@ export function FlashcardsSection({ pathName, questions: pathQuestions, levels }
                 <div className="ranking">
                     <h3 className="text-xl font-bold">Ranking da fase</h3>
                     <p className="ranking-sub">Veja sua posição em relação a outros jogadores.</p>
-                    <ol className="ranking-list">
-                        {ranking.map((player, idx) => (
-                            <li key={idx} className={player.name === "Você" ? "you" : ""}>
-                                <div className="player">
-                                    <span className="pos">#{idx + 1}</span>
-                                    <span>{player.name}</span>
+
+                    {/* Desktop: 5 posições em formato de pódio (4 2 1 3 5) */}
+                    <div className="ranking-podium hidden md:flex">
+                        {[3, 1, 0, 2, 4].map(originalIdx => {
+                            const player = ranking[originalIdx];
+                            if (!player) return null;
+                            const position = originalIdx + 1;
+                            return (
+                                <div
+                                    key={originalIdx}
+                                    className={`podium-bar ${player.name === "Você" ? "you" : ""}`}
+                                    data-position={position}
+                                >
+                                    <div className="podium-content">
+                                        <div className="podium-medal">
+                                            {position === 1 && "🥇"}
+                                            {position === 2 && "🥈"}
+                                            {position === 3 && "🥉"}
+                                            {position > 3 && `#${position}`}
+                                        </div>
+                                        <div className="podium-name">{player.name}</div>
+                                        <div className="podium-xp">{player.xp} XP</div>
+                                    </div>
                                 </div>
-                                <span>{player.xp} XP</span>
-                            </li>
-                        ))}
-                    </ol>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </section>
