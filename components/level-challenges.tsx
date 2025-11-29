@@ -89,7 +89,7 @@ export function LevelChallenges({ levelData, totalXP, completedActivities, onCom
                                 <div className="w-full flex justify-between items-center mb-4">
                                     {isReward ? (
                                         <Badge variant="destructive" className="text-base">
-                                            2.500 XP
+                                            Custa: {Math.abs(activity.xp)} XP
                                         </Badge>
                                     ) : (
                                         <Badge variant="default" className="text-base">
